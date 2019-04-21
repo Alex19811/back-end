@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.brainacad.JsonUtils.stringFromJSONByPath;
+
 
 public class RestTest{
 
@@ -76,8 +78,24 @@ public class RestTest{
         System.out.println(body);
         Assert.assertNotEquals("Body shouldn't be null", null, body);
     }
+    @Test//GET метод
+    public void listUsers() throws IOException {
+        String endpoint = "/api/users";
 
-    //TODO: напишите по тесткейсу на каждый вариант запроса на сайте https://reqres.in
+
+        //Выполняем REST GET запрос с нашими параметрами
+        // и сохраняем результат в переменную response.
+        HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=2");
+
+        //Конвертируем входящий поток тела ответа в строку
+        String body = HttpClientHelper.getBodyFromResponse(response);
+        System.out.println(body);
+        String firstName=stringFromJSONByPath(body, "$.data.[0].first_name");
+        Assert.assertEquals("First Name should be \"Eve\"", "Eve", firstName);
+    }
+
+
+        //TODO: напишите по тесткейсу на каждый вариант запроса на сайте https://reqres.in
     //TODO: в тескейсах проверьте Result Code и несколько параметров из JSON ответа (если он есть)
 
 }
