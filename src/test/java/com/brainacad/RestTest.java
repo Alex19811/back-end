@@ -83,7 +83,23 @@ public class RestTest{
     //TODO: напишите по тесткейсу на каждый вариант запроса на сайте https://reqres.in
     //TODO: в тескейсах проверьте Result Code и несколько параметров из JSON ответа (если он есть)
 
-    @Test//GET mehtod jsonDAta from LIST USERS
+    @Test//GET метод
+    public void listUsers() throws IOException {
+        String endpoint = "/api/users";
+
+
+        //Выполняем REST GET запрос с нашими параметрами
+        // и сохраняем результат в переменную response.
+        HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=2");
+
+        //Конвертируем входящий поток тела ответа в строку
+        String body = HttpClientHelper.getBodyFromResponse(response);
+        System.out.println(body);
+        String firstName = stringFromJSONByPath(body, "$.data.[0].first_name");
+        Assert.assertEquals("First Name should be \"Eve\"", "Eve", firstName);
+    }
+
+        @Test//GET mehtod jsonDAta from LIST USERS
     public void checkString () throws IOException {
         String endpoint="/api/users";
         HttpResponse response = HttpClientHelper.get(URL+endpoint,"page=2");
