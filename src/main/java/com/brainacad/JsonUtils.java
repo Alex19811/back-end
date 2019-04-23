@@ -11,20 +11,23 @@ public class JsonUtils {
         return JsonPath.read(json, jsonPath);
     }
 
-
     //TODO: Используя библиотеку com.jayway.jsonpath (Maven) напишите метод извлечения int из JSON по JSON Path:
 
     public static int intFromJSONByPath(String json, String jsonPath){
-         return JsonPath.read(json, jsonPath);
+        return JsonPath.read(json, jsonPath);
     }
-
 
     //TODO: Используя библиотеку com.jayway.jsonpath (Maven) напишите метод извлечения double из JSON по JSON Path:
 
     public static double doubleFromJSONByPath(String json, String jsonPath){
+        //  double data = JsonPath.read(json, jsonPath);
         return JsonPath.read(json, jsonPath);
     }
+    //TODO: Используя библиотеку com.jayway.jsonpath (Maven) напишите метод извлечения long из JSON по JSON Path:
 
+    public static long longFromJSONByPath(String json, String jsonPath){
+        return JsonPath.read(json, jsonPath);
+    }
 
     //TODO: Используя библиотеку com.jayway.jsonpath (Maven) напишите метод извлечения списка (List) из JSON по JSON Path:
 
