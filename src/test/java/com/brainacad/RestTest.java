@@ -1,5 +1,6 @@
 package com.brainacad;
 
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -174,7 +175,24 @@ public class RestTest{
         Assert.assertEquals("Response status code should be 204", 204, statusCode);
     }
 
+    @Test//GET метод
+    public void checkGetResponseJsonSchema() throws Exception {
+        String endpoint="/api/users";
 
+        //Выполняем REST GET запрос с нашими параметрами
+        // и сохраняем результат в переменную response.
+        HttpResponse response = HttpClientHelper.get(URL+endpoint,"page=2");
+
+        //получаем статус код из ответа
+        int statusCode = response.getStatusLine().getStatusCode();
+
+        System.out.println("Response Code : " + statusCode);
+        Assert.assertEquals("Response status code should be 200", 200, statusCode);
+        String body=HttpClientHelper.getBodyFromResponse(response);
+        ProcessingReport result = MyJsonValidator.validateJson(body, "schemas/schema.json");
+        Assert.assertTrue(result.toString(), result.isSuccess()  );
+
+    }
 //TODO: напишите по тесткейсу на каждый вариант запроса на сайте https://reqres.in
     //TODO: в тескейсах проверьте Result Code и несколько параметров из JSON ответа (если он есть)
 
