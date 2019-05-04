@@ -1,6 +1,7 @@
 package com.brainacad;
 
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.sun.org.apache.xerces.internal.xs.StringList;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Array;
 import java.util.Arrays;
 import java.util.List;
 
@@ -203,7 +205,7 @@ public class RestTest {
     //02/05/2019
     @Test// Get method (List data)
     public void checkListData() throws IOException {
-        String endpoint = "/api/users";
+        String endpoint = "/api/users/2";
         HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=2");
         String body = HttpClientHelper.getBodyFromResponse(response);
         List actuallist = listFromJSONByPath(body, "$.data[*].first_name");
@@ -214,8 +216,8 @@ public class RestTest {
 
     @Test // Check Jsonschema for Get Users request
     public void checkJsonSchema() throws Exception {
-        String endpoint = "/api/users";
-        HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=2");
+        String endpoint = "/api/users/2";
+        HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=1");
         String body = HttpClientHelper.getBodyFromResponse(response);
         int statusCode = response.getStatusLine().getStatusCode();
         System.out.println("Response Code : " + statusCode);
@@ -256,4 +258,21 @@ public class RestTest {
 
     }
 
+
+    @Test//GET метод
+    public void listUsers4() throws IOException {
+        String endpoint = "/api/unknown";
+
+
+        //Выполняем REST GET запрос с нашими параметрами
+        // и сохраняем результат в переменную response.
+        HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=2");
+
+        //Конвертируем входящий поток тела ответа в строку
+        String body = HttpClientHelper.getBodyFromResponse(response);
+        System.out.println(body);
+        String year = stringFromJSONByPath(body, "$.data.[*].year");
+        Assert.assertEquals("year \"2000\"", "2000", year);
+
+    }
 }
