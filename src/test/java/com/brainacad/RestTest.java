@@ -275,7 +275,6 @@ public class RestTest {
         List actuallist = listFromJSONByPath(body, "$.data[*].year");
         List expectedlist = Arrays.asList("2000", "2001", "2002");
         //System.out.println("year = ");
-
         //Assert.assertEquals("Year 2000", 2000, year);
         //Assert.assertEquals("year \"2000\"", "2000");
 
