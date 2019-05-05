@@ -266,13 +266,20 @@ public class RestTest {
 
         //Выполняем REST GET запрос с нашими параметрами
         // и сохраняем результат в переменную response.
-        HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=2");
+        HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=1");
 
         //Конвертируем входящий поток тела ответа в строку
         String body = HttpClientHelper.getBodyFromResponse(response);
         System.out.println(body);
-        String year = stringFromJSONByPath(body, "$.data.[*].year");
-        Assert.assertEquals("year \"2000\"", "2000", year);
+        //Array year = listFromJSONByPath("$.data.[*].year");
+        List actuallist = listFromJSONByPath(body, "$.data[*].year");
+        List expectedlist = Arrays.asList("2000", "2001", "2002");
+        //System.out.println("year = ");
+
+        //Assert.assertEquals("Year 2000", 2000, year);
+        //Assert.assertEquals("year \"2000\"", "2000");
 
     }
 }
+
+
