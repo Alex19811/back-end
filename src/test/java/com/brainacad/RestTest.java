@@ -1,7 +1,8 @@
 package com.brainacad;
 
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.sun.org.apache.xerces.internal.xs.StringList;
+
+import io.qameta.allure.Allure;
 import org.apache.http.HttpResponse;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -12,9 +13,10 @@ import org.junit.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Array;
+
 import java.util.Arrays;
 import java.util.List;
+
 
 import static com.brainacad.JsonUtils.*;
 
@@ -26,6 +28,7 @@ public class RestTest {
     @Test//GET метод
     public void checkGetResponseStatusCode() throws IOException {
         String endpoint = "/api/users";
+
 
         //Выполняем REST GET запрос с нашими параметрами
         // и сохраняем результат в переменную response.
@@ -203,15 +206,15 @@ public class RestTest {
 
 
     //02/05/2019
-    @Test// Get method (List data)
-    public void checkListData() throws IOException {
-        String endpoint = "/api/users/2";
-        HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=2");
-        String body = HttpClientHelper.getBodyFromResponse(response);
-        List actuallist = listFromJSONByPath(body, "$.data[*].first_name");
-        List expectedlist = Arrays.asList("Eve", "Charles", "Tracey");
-        Assert.assertEquals("Error msg", expectedlist, actuallist);
-    }
+    //@Test// Get method (List data)
+    //public void checkListData() throws IOException {
+      //  String endpoint = "/api/users/2";
+        //HttpResponse response = HttpClientHelper.get(URL + endpoint, "page=2");
+        //String body = HttpClientHelper.getBodyFromResponse(response);
+       // List actuallist = listFromJSONByPath(body, "$.data[*].first_name");
+        //List expectedlist = Arrays.asList("Eve", "Charles", "Tracey");
+        //Assert.assertEquals("Error msg", expectedlist, actuallist);
+    //}
 
 
     @Test // Check Jsonschema for Get Users request
@@ -222,9 +225,9 @@ public class RestTest {
         int statusCode = response.getStatusLine().getStatusCode();
         System.out.println("Response Code : " + statusCode);
         Assert.assertEquals("Response status code should be 200", 200, statusCode);
-        String mappedbody = new String(Files.readAllBytes(Paths.get("schemaJson1/bodyMapped.json")));
+        String mappedbody = new String(Files.readAllBytes(Paths.get("D:\\labs\\back-end\\schemas\\bodyMapped.json")));
         //ProcessingReport result = MyJsonValidator.validateJson(mappedbody, "schemaJson1/schema.json");
-        ProcessingReport result = MyJsonValidator.validateJson(body, "schemaJson1/schema.json");
+        ProcessingReport result = MyJsonValidator.validateJson(body, "D:\\labs\\back-end\\schemas\\bodyMapped.json");
         Assert.assertTrue(result.toString(), result.isSuccess());
 
     }
@@ -247,7 +250,7 @@ public class RestTest {
         Assert.assertEquals("Response status code should be 200", 200, statusCode);
         String body = HttpClientHelper.getBodyFromResponse(response);
         System.out.println(body);
-        String data = stringFromJSONByPath(body, "$.updatedAt");
+        String data = stringFromJSONByPath(body, "D:\\labs\\back-end\\schemas\\bodyMapped8.json");
         //String data = new String(Files.readAllBytes(Paths.get ( "schemaJson8/bodyMapped8.json")));
         //DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");--можно так
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZoneUTC();

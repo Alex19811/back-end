@@ -10,7 +10,7 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.PublicKey;
+
 
 
 public class MyJsonValidator {
