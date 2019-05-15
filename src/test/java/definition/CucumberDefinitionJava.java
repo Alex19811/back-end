@@ -20,39 +20,35 @@ public class CucumberDefinitionJava {
 
     @Given("I have server by url {string}")
     public void i_have_server_by_url(String url) {
-        URL=url;
+        URL = url;
 
     }
 
     @When("I send GET request on endpoint {string} and parameters {string}")
-    public void i_send_GET_request_on_endpoint_and_parameters(String endpoint, String parameters) throws IOException{
-    response = HttpClientHelper.get (URL+endpoint, parameters);
+    public void i_send_GET_request_on_endpoint_and_parameters(String endpoint, String parameters) throws IOException {
+        response = HttpClientHelper.get(URL + endpoint, parameters);
         // Write code here that turns the phrase above into concrete actions
 
     }
 
     @Then("I get response status code {int}")
     public void i_get_response_status_code(int responceCode) {
-
         int statusCode = response.getStatusLine().getStatusCode();
         Assert.assertEquals("Response status code should be 200", responceCode, statusCode);
     }
 
 
     @When("I send GET request on endpoint {string} and requestBody {string}")
-    public void iSendGETRequestOnEndpointAndRequestBodyNameMorpheusJobLeader(String endpoint, String body)  {
-
+    public void iSendGETRequestOnEndpointAndRequestBodyNameMorpheusJobLeader(String endpoint, String body) {
         Assert.assertNotEquals("Body shouldn't be %s", null, body);
-
     }
-
 
 
     @Then("I get from body and JSONBPath {string} list of names")
     public void iGetFromBodyAndJSONBPathListOfNames(String jsonPath, List<String> expectedNames) throws IOException {
         String body = HttpClientHelper.getBodyFromResponse(response);
         List<String> firstNames = listFromJSONByPath(body, jsonPath);
-        Assert.assertEquals("First Name should be " +expectedNames, expectedNames, firstNames);
+        Assert.assertEquals("First Name should be " + expectedNames, expectedNames, firstNames);
     }
 
 
@@ -61,7 +57,6 @@ public class CucumberDefinitionJava {
         String body = HttpClientHelper.getBodyFromResponse(response);
         Assert.assertNotEquals("Body shouldn't be null", isNull, body);
     }
-
 
 
 }
