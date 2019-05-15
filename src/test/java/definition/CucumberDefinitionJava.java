@@ -1,7 +1,6 @@
-package Definition;
+package definition;
 
 import com.brainacad.HttpClientHelper;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -9,8 +8,9 @@ import org.apache.http.HttpResponse;
 import org.junit.Assert;
 
 import java.io.IOException;
+import java.util.List;
 
-import static javafx.scene.input.DataFormat.URL;
+import static com.brainacad.JsonUtils.listFromJSONByPath;
 
 public class CucumberDefinitionJava {
 
@@ -34,11 +34,8 @@ public class CucumberDefinitionJava {
     @Then("I get response status code {int}")
     public void i_get_response_status_code(int responceCode) {
 
-        Assert.assertEquals(
-                String.format("Response code should be %S", responceCode),
-        //"Response code should be" + responseCode
-                response.getStatusLine().getStatusCode(), responceCode
-        );
+        int statusCode = response.getStatusLine().getStatusCode();
+        Assert.assertEquals("Response status code should be 200", responceCode, statusCode);
     }
 
 
@@ -49,13 +46,22 @@ public class CucumberDefinitionJava {
 
     }
 
-    @Then("I get response status bode not null")
-    public void iGetResponseStatusBodeNotNull(String body) {
-        Assert.assertNotEquals("Body shouldn't be null", null, body);
 
+
+    @Then("I get from body and JSONBPath {string} list of names")
+    public void iGetFromBodyAndJSONBPathListOfNames(String jsonPath, List<String> expectedNames) throws IOException {
+        String body = HttpClientHelper.getBodyFromResponse(response);
+        List<String> firstNames = listFromJSONByPath(body, jsonPath);
+        Assert.assertEquals("First Name should be " +expectedNames, expectedNames, firstNames);
     }
 
-    @Then("I get fom body {string} and JSONBPath {string} list of names")
-    public void iGetFomBodyAndJSONBPathListOfNames(String,  list names) {
+
+    @Then("^I get response status body not (.*)$")
+    public void iGetResponseStatusBodyNotNull(String isNull) throws IOException {
+        String body = HttpClientHelper.getBodyFromResponse(response);
+        Assert.assertNotEquals("Body shouldn't be null", isNull, body);
     }
+
+
+
 }
